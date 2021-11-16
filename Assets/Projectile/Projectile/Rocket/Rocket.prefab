@@ -4983,6 +4983,8 @@ MonoBehaviour:
     m_Bits: 4294967295
   life: 2
   speed: 20
+  moveResolution: 1
+  trail: {fileID: 0}
   body: {fileID: 1726459161252200585}
   rotSpeed: 13
   target: {fileID: 0}
