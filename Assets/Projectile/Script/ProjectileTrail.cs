@@ -5,15 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(TrailRenderer))]
 public class ProjectileTrail : ProjectileMove
 {
-    TrailRenderer trail;
-    float timeMem;
+    [HideInInspector]
+    public TrailRenderer trail;
     bool moving = true;
     public GameObject body;
 
-    private void Awake()
+    protected override void Awake()
     {
         trail = GetComponent<TrailRenderer>();
-        timeMem = trail.time;
+        base.Awake();
     }
 
 
@@ -21,8 +21,7 @@ public class ProjectileTrail : ProjectileMove
     {
         base.OnEnable();
 
-        trail.time = 0;
-        Tool.ActionWaitEndFrame(() => { trail.time = timeMem; }, 2);
+        trail.Clear();
         moving = true;
         if (body != null) body.SetActive(true);
     }
@@ -40,5 +39,11 @@ public class ProjectileTrail : ProjectileMove
     {
         if (!moving) return;
         base.Update();
+    }
+
+    protected override bool Move(float dist)
+    {
+        trail.AddPosition(transform.position);
+        return base.Move(dist);
     }
 }

@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cacb1aa349e884f7f8da546b11a775c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pitch: 1
+  dpitch: 0.15
   shake: 0
 --- !u!198 &770158512518612492
 ParticleSystem:

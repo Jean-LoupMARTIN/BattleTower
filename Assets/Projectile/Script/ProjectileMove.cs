@@ -7,7 +7,12 @@ public class ProjectileMove : Projectile
     protected float lifeCrt = 0;
 
     public float speed = 10;
+    public int moveResolution = 1;
 
+    protected virtual void Awake()
+    {
+        speed /= moveResolution;
+    }
 
     protected override void OnEnable()
     {
@@ -17,17 +22,16 @@ public class ProjectileMove : Projectile
 
     protected virtual void Update()
     {
-        Move();
+        if (moveResolution == 1) Move(speed * Time.deltaTime);
+        else for (int i = 0; i < moveResolution && !Move(speed * Time.deltaTime); i++) { }
 
         lifeCrt += Time.deltaTime;
         if (lifeCrt > life) Desactive();
     }
 
-    protected virtual void Move()
+    protected virtual bool Move(float dist)
     {
-        float move = speed * Time.deltaTime;
-
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, move, layer))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, dist, layer))
         {
             transform.position = hit.point;
 
@@ -39,9 +43,15 @@ public class ProjectileMove : Projectile
                                          Quaternion.LookRotation(Vector3.Reflect(transform.forward, hit.normal)));
 
             Desactive();
+            return true;
         }
-        else transform.Translate(Vector3.forward * move);
+
+        transform.Translate(Vector3.forward * dist);
+        return false;
     }
 
     protected virtual void Desactive() => QueueManager.Desactive(gameObject);
+
+    public void SetSpeed(float speed) => this.speed = speed / moveResolution;
+
 }

@@ -23,8 +23,8 @@ public class MultiProjectile : MonoBehaviour
                 ProjectileTarget bullet = QueueManager.Instantiate(projoPrefab.gameObject, transform.position, transform.rotation).GetComponent<ProjectileTarget>();
                 bullet.transform.Rotate(Random.Range(-angle / 2, angle / 2), Random.Range(-angle / 2, angle / 2), 0);
                 bullet.target = target;
-                bullet.speed = speed * (1 + Random.Range(-dSpeed, dSpeed));
-                bullet.rotSpeed = rotSpeed;
+                bullet.SetSpeed(speed * (1 + Random.Range(-dSpeed, dSpeed)));
+                bullet.SetRotSpeed(rotSpeed);
             }
         }
 
